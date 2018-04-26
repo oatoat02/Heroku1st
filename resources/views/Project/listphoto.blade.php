@@ -1,4 +1,7 @@
 @extends('layout') @section('content')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.semanticui.min.css">
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.semanticui.min.js"></script>
 <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
 	<div class="ui segment">
 		<div class="ui clearing grey inverted segment">
@@ -13,7 +16,7 @@
 		</div>
 		<br>
 
-		<form action="{{ route('Project.findPhoto') }}" method="post" class="ui form segment">
+		<form action="{{ route('Project.listfindPhoto') }}" method="post" class="ui form segment">
 
 			<h4 class="ui dividing header">ค้นหารูปภาพ</h4>
 
@@ -29,7 +32,6 @@
 						<div class="menu" ">
 							@foreach($listTLE as $Item)
 							<div class="item " data-value="{{$Item->name}}">{{$Item->name}}</div>
-
 						@endforeach
 						<div class="item" data-value="All">All</div>
 					</div>
@@ -85,40 +87,78 @@
 		$('.selectSatellite').dropdown('set selected', '{{$data[0]}}');
 		$('.selectDurations').dropdown('set selected', '{{$data[1]}}');
 	</script>
-	<br>
 
-	<div class="ui four stackable link cards ">
-		@foreach($listPhoto as $Item)
-		<div class="card">
 
-			<div class="image ShowPhoto" id="photopath" data-PathValue="{{ $Item->path }}">
-				<img src="{{ $Item->path }}" style="  height: 25em; ">
-			</div>
-			<div class="content">
-				<div class="header">{{ $Item->SatelliteName }}</div>
+	<table class="ui celled table" id="example">
 
-				<div class="description">
-					Enhancement : {{ $Item->Enhancement }}
-					<br> Date Acquired: {{ $Item->DateAcquired }}
-					<br> Time Acquired:{{ $Item->TimeAcquired }}
-					<br>
-					<a href="{{ $Item->path }}" download>
-						<i class="download icon"></i>Download</a>
-				</div>
-			</div>
 
-		</div>
-		@endforeach
-	</div>
+		<thead>
+			<th>
+				<center>Satellite</center>
+			</th>
+			<th>
+				<center>Date Acquired</center>
+			</th>
+			<th>
+				<center>Time Acquired</center>
+			</th>
+			<th>
+				<center>รายละเอียด</center>
+			</th>
+
+			<th>
+				<center>ลบรูปภาพ</center>
+			</th>
+
+
+
+		</thead>
+		<tbody>
+			@foreach($listPhoto as $Data)
+			<tr>
+
+				<td>
+					<center>{{$Data->SatelliteName}}</center>
+				</td>
+				<td>
+					<center>
+						{{$Data->DateAcquired}}
+					</center>
+				</td>
+				<td>
+					<center>
+						{{$Data->TimeAcquired}}
+					</center>
+				</td>
+				<td>
+					<center>
+						<button class='ui green button ShowPhoto' id="photopath" data-PathValue="{{ $Data->path }}" style="width: 70%" type='submit'>ดูรูปภาพ</button>
+					</center>
+				</td>
+				<td>
+					<center>
+						<form action="{{ route('Project.deletephoto') }}" method='post'>
+							<input type="hidden" name="_token" value="{{ csrf_token() }}">
+							<input type="hidden" name="id" value="{{ $Data->id }}">
+							<button class='ui red button' style="width: 70%" type='submit'>ลบ</button>
+						</form>
+					</center>
+				</td>
+
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+
+</div>
+
 </div>
 
 
 
 
 
-
-
-<div class="ui basic modal" id="ShowPhoto" style="z-index: 250 !important;">
+<div class="ui basic modal " id="ShowPhoto" style="z-index: 250 !important;">
 	<i class="close icon"></i>
 
 
@@ -208,9 +248,10 @@
 	</div>
 </div>
 
-
 <script type="text/javascript" src="/js/date.js"></script>
 <script type="text/javascript">
+	$('#example').DataTable();
+
 	$(document).on('click', '.AddPhoto', function () {
 
 		$('#AddPhoto').modal({
@@ -236,6 +277,7 @@
 		}).modal('show');
 	});
 	$(document).on('click', '.ShowPhoto', function () {
+		console.log('sss');
 		var path = ($(this).data('pathvalue'));
 
 
