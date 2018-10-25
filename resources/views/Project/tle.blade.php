@@ -1,9 +1,6 @@
 @extends('layout')
 @section('content')
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.semanticui.min.css">
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/dataTables.semanticui.min.js"></script>
 <div class="sixteen wide  column">
 	<div class="ui segment">
 		<div class="ui grey inverted segment">
@@ -19,7 +16,7 @@
 
 		@endif
 		
-		<table class="ui celled table " id="example">
+		<table class="ui celled table " id="sattellitetle">
 			<thead>
 				<th class="center aligned four wide" >ชื่อดาวเทียม</th>
 				<th class="center aligned four wide" >วันที่อัพเดทขอมูล</th>
@@ -162,8 +159,7 @@
 	</div>
 
 	<script type="text/javascript">
-		$('#example').DataTable();
-		
+
 		$(document).on('click', '.btTLE', function() {
 
 			$('#id').val($(this).data('id'));

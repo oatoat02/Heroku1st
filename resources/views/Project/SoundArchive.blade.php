@@ -1,8 +1,5 @@
 @extends('layout')
 @section('content')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.semanticui.min.css">
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/dataTables.semanticui.min.js"></script>
 <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column" >
 	<div class="ui segment">
 		<div class="ui clearing grey inverted segment">
@@ -91,7 +88,7 @@
 
 				
 			</script>
-		<table class="ui celled table" id="example">
+		<table class="ui celled table">
 			<thead>
 				<tr>
 					<th>Date</th>
@@ -224,7 +221,6 @@
 </div>
 
 <script type="text/javascript">
-$('#example').DataTable();
 	$(function() {
 
 		var bar = $('.bar');
